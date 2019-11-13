@@ -33,8 +33,8 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
             return null;
     }
 
-    public Collection<TimeEntry> list() {
-        return timeEntryMap.values();
+    public List<TimeEntry> list() {
+        return new ArrayList<>(timeEntryMap.values());
     }
 
     public void delete(long id) {
