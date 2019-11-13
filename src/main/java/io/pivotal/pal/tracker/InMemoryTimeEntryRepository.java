@@ -37,7 +37,7 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
         return timeEntryMap.values();
     }
 
-    public TimeEntry delete(long id) {
-        return timeEntryMap.remove(id);
+    public void delete(long id) {
+        timeEntryMap.remove(id);
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,6 @@ public class TimeEntryController {
 
     @GetMapping("/{ID}")
     public ResponseEntity<TimeEntry> read(@PathVariable("ID") long timeEntryId) {
-        System.out.println("In Read method");
         TimeEntry localtimeEntry = timeEntryRepository.find(timeEntryId);
         if(localtimeEntry != null)
             return new ResponseEntity<>(localtimeEntry, HttpStatus.OK);
@@ -40,12 +41,8 @@ public class TimeEntryController {
 
     @DeleteMapping("/{ID}")
     public ResponseEntity delete(@PathVariable("ID") long timeEntryId) {
-        TimeEntry localtimeEntry = timeEntryRepository.delete(timeEntryId);
-
-        if(localtimeEntry != null)
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        else
-            return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+        timeEntryRepository.delete(timeEntryId);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("")
@@ -53,9 +50,9 @@ public class TimeEntryController {
         return new ResponseEntity<>(timeEntryRepository.create(timeEntryToCreate), HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<TimeEntry>> list() {
-        System.out.println("In List method");
-        return new ResponseEntity<>((List)timeEntryRepository.list(), HttpStatus.OK);
+        List<TimeEntry> listEntries = new ArrayList<>(timeEntryRepository.list());
+        return new ResponseEntity<>(listEntries, HttpStatus.OK);
     }
 }
